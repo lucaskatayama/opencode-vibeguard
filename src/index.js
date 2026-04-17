@@ -23,7 +23,12 @@ export const VibeGuardPrivacy = async (ctx) => {
 
   if (!config.enabled) return {}
 
-  const patterns = buildPatternSet(config.patterns)
+  let patterns = null
+  const getPatterns = () => {
+    if (!patterns) patterns = buildPatternSet(config.patterns)
+    return patterns
+  }
+
   const sessions = new Map()
 
   const getSession = (sessionID) => {
@@ -63,7 +68,7 @@ export const VibeGuardPrivacy = async (ctx) => {
             if (part.ignored) continue
             if (!part.text || typeof part.text !== "string") continue
             const before = part.text
-            const after = redactText(before, patterns, session).text
+            const after = redactText(before, getPatterns(), session).text
             if (after !== before) changedTextParts++
             part.text = after
             continue
@@ -73,7 +78,7 @@ export const VibeGuardPrivacy = async (ctx) => {
           if (part.type === "reasoning") {
             if (!part.text || typeof part.text !== "string") continue
             const before = part.text
-            const after = redactText(before, patterns, session).text
+            const after = redactText(before, getPatterns(), session).text
             if (after !== before) changedTextParts++
             part.text = after
             continue
@@ -87,26 +92,26 @@ export const VibeGuardPrivacy = async (ctx) => {
             // 统一把工具输入也做深度脱敏：真实执行的 args 会包含明文（由 tool.execute.before 还原），
             // 如果不在这里再脱敏一次，后续回合会把明文 args 带给 LLM。
             if (state.input && typeof state.input === "object") {
-              redactDeep(state.input, patterns, session)
+              redactDeep(state.input, getPatterns(), session)
             }
 
             if (state.status === "completed" && typeof state.output === "string") {
               const before = state.output
-              const after = redactText(before, patterns, session).text
+              const after = redactText(before, getPatterns(), session).text
               if (after !== before) changedTextParts++
               state.output = after
               continue
             }
             if (state.status === "error" && typeof state.error === "string") {
               const before = state.error
-              const after = redactText(before, patterns, session).text
+              const after = redactText(before, getPatterns(), session).text
               if (after !== before) changedTextParts++
               state.error = after
               continue
             }
             if (state.status === "pending" && typeof state.raw === "string") {
               const before = state.raw
-              const after = redactText(before, patterns, session).text
+              const after = redactText(before, getPatterns(), session).text
               if (after !== before) changedTextParts++
               state.raw = after
               continue
