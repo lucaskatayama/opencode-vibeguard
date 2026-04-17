@@ -1,3 +1,14 @@
+const regexCache = new Map()
+
+function getRegex(pattern, flags) {
+  const key = `${pattern}::${flags}`
+  let re = regexCache.get(key)
+  if (re) return re
+  re = new RegExp(pattern, flags)
+  regexCache.set(key, re)
+  return re
+}
+
 function subtractCovered(start, end, covered) {
   if (start >= end) return []
   const out = []
@@ -73,7 +84,7 @@ export function redactText(input, patterns, session) {
   for (const rule of patterns.regex) {
     const baseFlags = String(rule.flags ?? "")
     const flags = baseFlags.includes("g") ? baseFlags : `${baseFlags}g`
-    const re = new RegExp(rule.pattern, flags)
+    const re = getRegex(rule.pattern, flags)
     for (const m of text.matchAll(re)) {
       if (!m[0]) continue
       const start = m.index ?? -1
