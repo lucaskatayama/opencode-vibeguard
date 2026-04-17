@@ -2,26 +2,7 @@ import { existsSync } from "node:fs"
 import * as fs from "node:fs/promises"
 import os from "node:os"
 import path from "node:path"
-
-function parseDurationMs(input) {
-  const raw = String(input ?? "").trim()
-  if (!raw) return 60 * 60 * 1000
-
-  const m = raw.match(/^(\d+(?:\.\d+)?)(ms|s|m|h|d)$/)
-  if (!m) return 60 * 60 * 1000
-
-  const value = Number(m[1])
-  const unit = m[2]
-  if (!Number.isFinite(value) || value < 0) return 60 * 60 * 1000
-
-  if (unit === "ms") return value
-  if (unit === "s") return value * 1000
-  if (unit === "m") return value * 60 * 1000
-  if (unit === "h") return value * 60 * 60 * 1000
-  if (unit === "d") return value * 24 * 60 * 60 * 1000
-
-  return 60 * 60 * 1000
-}
+import { parseDurationMs } from "./utils.js"
 
 function readJson(filepath) {
   return fs
