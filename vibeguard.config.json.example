@@ -15,7 +15,7 @@
       { "pattern": "(ghp|gho|ghu|ghs|ghr)_[A-Za-z0-9]+", "category": "GITHUB_TOKEN" },
       { "pattern": "AKIA[0-9A-Z]{16}", "category": "AWS_ACCESS_KEY" }
     ],
-    "builtin": ["email", "china_phone", "china_id", "uuid", "ipv4", "mac"],
+    "builtin": ["email", "uuid", "ipv4", "mac", "uri_credentials", "env_secret", "env_key"],
     "exclude": ["example.com", "localhost", "127.0.0.1", "0.0.0.0"]
   }
 }

@@ -88,6 +88,30 @@ const BUILTIN = new Map([
       category: "MAC",
     },
   ],
+  [
+    "uri_credentials",
+    {
+      pattern: String.raw`(?<=://)[^:@]+:[^@]+(?=@)`,
+      flags: "i",
+      category: "URI_CREDENTIALS",
+    },
+  ],
+  [
+    "env_secret",
+    {
+      pattern: String.raw`(?<=.*_SECRET=).*`,
+      flags: "i",
+      category: "ENV_SECRET",
+    },
+  ],
+  [
+    "env_key",
+    {
+      pattern: String.raw`(?<=.*_KEY=).*`,
+      flags: "i",
+      category: "ENV_KEY",
+    },
+  ],
 ])
 
 export function buildPatternSet(patterns) {

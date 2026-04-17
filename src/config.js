@@ -82,6 +82,16 @@ export async function loadConfig(directory) {
     const cfg = normalizeConfig(raw)
     return { ...cfg, loadedFrom: file }
   }
+
+  const examplePath = path.join(process.cwd(), "vibeguard.config.json.example")
+  if (existsSync(examplePath)) {
+    const raw = await readJson(examplePath)
+    if (raw) {
+      const cfg = normalizeConfig(raw)
+      return { ...cfg, loadedFrom: examplePath, isDefault: true }
+    }
+  }
+
   const cfg = normalizeConfig({ enabled: false })
   return { ...cfg, loadedFrom: "" }
 }
