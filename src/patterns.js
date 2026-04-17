@@ -23,12 +23,14 @@ function peelInlineFlags(pattern, flags) {
 
 const BUILTIN = new Map([
   ["email", { pattern: "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}", flags: "i", category: "EMAIL" }],
-  ["china_phone", { pattern: "(?<!\d)1[3-9]\d{9}(?!\d)", flags: "", category: "CHINA_PHONE" }],
-  ["china_id", { pattern: "(?<!\d)\d{17}[\dXx](?!\d)", flags: "", category: "CHINA_ID" }],
+  ["china_phone", { pattern: "(?<!\d)1[3-9]\\d{9}(?!\d)", flags: "", category: "CHINA_PHONE" }],
+  ["china_id", { pattern: "(?<!\d)\\d{17}[\\dXx](?!\d)", flags: "", category: "CHINA_ID" }],
   ["uuid", { pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}", flags: "", category: "UUID" }],
-  ["ipv4", { pattern: "(?:\d{1,3}\.){3}\d{1,3}", flags: "", category: "IPV4" }],
+  ["ipv4", { pattern: "(?:\\d{1,3}\\.){3}\\d{1,3}", flags: "", category: "IPV4" }],
   ["mac", { pattern: "(?:[0-9a-f]{2}:){5}[0-9a-f]{2}", flags: "i", category: "MAC" }],
   ["uri_credentials", { pattern: "(?<=://)[^:@]+:[^@]+(?=@)", flags: "i", category: "URI_CREDENTIALS" }],
+  ["env_secret", { pattern: "(?<![A-Za-z0-9])[A-Za-z_][A-Za-z0-9_]*SECRET=\\S+", flags: "i", category: "ENV_SECRET" }],
+  ["env_key", { pattern: "(?<![A-Za-z0-9])[A-Za-z_][A-Za-z0-9_]*KEY=\\S+", flags: "i", category: "ENV_KEY" }],
 ])
 
 export function buildPatternSet(patterns) {
