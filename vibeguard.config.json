@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "debug": false,
+  "placeholder_prefix": "__SECRET_REDACTED_",
+  "session": {
+    "ttl": "1h",
+    "max_mappings": 100000
+  },
+  "patterns": {
+    "builtin": ["email", "uuid", "ipv4", "mac", "uri_credentials", "env_secret", "env_key"],
+    "exclude": ["example.com", "localhost", "127.0.0.1", "0.0.0.0"]
+  }
+}
