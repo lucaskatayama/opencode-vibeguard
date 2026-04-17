@@ -1,7 +1,7 @@
 {
   "enabled": true,
   "debug": false,
-  "placeholder_prefix": "__VG_",
+  "placeholder_prefix": "__SECRET_REDACTED_",
   "session": {
     "ttl": "1h",
     "max_mappings": 100000
